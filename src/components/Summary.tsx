@@ -166,57 +166,6 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
           )}
         </div>
 
-        {/* Contact Form */}
-        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-8">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-            <User className="mr-2" size={20} />
-            Contact Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="name" className="text-white/90">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                value={contactInfo.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                placeholder="Your full name"
-              />
-            </div>
-            <div>
-              <Label htmlFor="email" className="text-white/90">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={contactInfo.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                placeholder="your.email@example.com"
-              />
-            </div>
-            <div>
-              <Label htmlFor="phone" className="text-white/90">Phone</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={contactInfo.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                placeholder="(+351) 912 345 678"
-              />
-            </div>
-            <button
-              onClick={handleSubmit}
-              disabled={!contactInfo.name || !contactInfo.email || isSubmitted}
-              className="w-full bg-white text-purple-600 px-6 py-3 rounded-xl font-bold
-                       hover:bg-white/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitted ? 'Data Saved! ✓' : 'Thank You! We Hope To See You Again!'}
-            </button>
-          </div>
-        </div>
-
         {/* Reset Button */}
         <div className="text-center">
           <button
