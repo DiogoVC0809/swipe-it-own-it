@@ -132,8 +132,7 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
 
   return (
     
-    <div className="inset-0 flex items-center justify-top-center">
-      
+    <div className="absolute inset-0 flex items-center justify-top-center">
       <div
         ref={cardRef}
         className={`
