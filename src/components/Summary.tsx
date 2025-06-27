@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Home, RotateCcw, TrendingUp, User } from 'lucide-react';
-import { Input } from './ui/input';
-import { Label } from './ui/label';
-import axios from 'axios';
+import { ShoppingBag, Home, RotateCcw, TrendingUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 
 interface Decision {
   objectName: string;
@@ -15,18 +13,7 @@ interface SummaryProps {
   onReset: () => void;
 }
 
-interface ContactInfo {
-  name: string;
-  email: string;
-  phone: string;
-}
-
 const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
-  const [contactInfo, setContactInfo] = useState<ContactInfo>({
-    name: '',
-    email: '',
-    phone: ''
-  });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const buyDecisions = decisions.filter(d => d.choice === 'Buy');
@@ -35,38 +22,11 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
   const buyPercentage = Math.round((buyDecisions.length / decisions.length) * 100);
   const rentPercentage = Math.round((rentDecisions.length / decisions.length) * 100);
 
-  const handleInputChange = (field: keyof ContactInfo, value: string) => {
-    setContactInfo(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
+  const navigate = useNavigate(); // useNavigate hook to navigate to FeedbackForm
 
-  const handleSubmit = async () => {
-    const surveyData = {
-      contactInfo,
-      summary: {
-        totalDecisions: decisions.length,
-        buyDecisions: buyDecisions.length,
-        rentDecisions: rentDecisions.length,
-        buyPercentage,
-        rentPercentage
-      }
-    };
-
-    try {
-      // Envia os dados para o servidor
-      await axios.post('http://localhost:8080/api/upload', surveyData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      
-      setIsSubmitted(true);
-      console.log('Survey data saved:', surveyData);
-    } catch (error) {
-      console.error('Error saving survey data:', error);
-    }
+  const handleSubmit = () => {
+    // Navigate to FeedbackForm page
+    navigate('/feedback-form');
   };
 
   return (
@@ -119,20 +79,11 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
               <div key={index} className="flex items-center justify-between bg-white/10 rounded-lg p-3">
                 <span className="text-white font-medium">{decision.objectName}</span>
                 <div className="flex items-center space-x-2">
-                  <div className={`
-                    px-3 py-1 rounded-full text-xs font-bold text-white
-                    ${decision.choice === 'Buy' ? 'bg-green-500' : 'bg-red-500'}
-                  `}>
+                  <div className={`px-3 py-1 rounded-full text-xs font-bold text-white ${decision.choice === 'Buy' ? 'bg-green-500' : 'bg-red-500'}`}>
                     {decision.choice}
                   </div>
-                  <div className={`
-                    w-6 h-6 rounded-full flex items-center justify-center
-                    ${decision.choice === 'Buy' ? 'bg-green-500' : 'bg-red-500'}
-                  `}>
-                    {decision.choice === 'Buy' ? 
-                      <ShoppingBag size={12} className="text-white" /> : 
-                      <Home size={12} className="text-white" />
-                    }
+                  <div className={`w-6 h-6 rounded-full flex items-center justify-center ${decision.choice === 'Buy' ? 'bg-green-500' : 'bg-red-500'}`}>
+                    {decision.choice === 'Buy' ? <ShoppingBag size={12} className="text-white" /> : <Home size={12} className="text-white" />}
                   </div>
                 </div>
               </div>
@@ -140,64 +91,22 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
           </div>
         </div>
 
-        {/* Contact Form */}
-        <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-8">
-          <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-            <User className="mr-2" size={20} />
-            Contact Information
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <Label htmlFor="name" className="text-white/90">Name</Label>
-              <Input
-                id="name"
-                type="text"
-                value={contactInfo.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                placeholder="Your full name"
-              />
-            </div>
-            <div>
-              <Label htmlFor="email" className="text-white/90">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                value={contactInfo.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                placeholder="your.email@example.com"
-              />
-            </div>
-            <div>
-              <Label htmlFor="phone" className="text-white/90">Phone</Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={contactInfo.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                placeholder="(+351) 912 345 678"
-              />
-            </div>
-            <button
-              onClick={handleSubmit}
-              disabled={!contactInfo.name || !contactInfo.email || isSubmitted}
-              className="w-full bg-white text-purple-600 px-6 py-3 rounded-xl font-bold
-                       hover:bg-white/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitted ? 'Data Saved! ✓' : 'Thank You! We Hope To See You Again!'}
-            </button>
-          </div>
+        {/* Proceed to Feedback Form Button */}
+        <div className="text-center mb-8">
+          <button
+            onClick={handleSubmit}
+            disabled={isSubmitted}
+            className="w-full bg-white text-purple-600 px-6 py-3 rounded-xl font-bold hover:bg-white/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitted ? 'Redirecting to Feedback...' : 'Proceed to Feedback'}
+          </button>
         </div>
 
         {/* Reset Button */}
         <div className="text-center">
           <button
             onClick={onReset}
-            className="bg-white text-purple-600 px-8 py-4 rounded-2xl font-bold text-lg
-                     hover:bg-white/90 transition-all duration-200 transform hover:scale-105
-                     flex items-center space-x-2 mx-auto shadow-lg"
+            className="bg-white text-purple-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/90 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-lg"
           >
             <RotateCcw size={20} />
             <span>Try Again</span>
