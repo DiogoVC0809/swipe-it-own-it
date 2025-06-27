@@ -1,4 +1,4 @@
-# Swipe It Buy It
+# Swipe It Own It
 
 ## Description
 
@@ -31,4 +31,4 @@ Make sure you have the following installed:
 
 ```bash
 git clone https://github.com/DiogoVC0809/swipe-it-own-it.git
-cd project-name
+cd swipe-it-own-it
