@@ -1,8 +1,8 @@
-
 import React, { useState } from 'react';
 import { ShoppingBag, Home, RotateCcw, TrendingUp, User } from 'lucide-react';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
+import axios from 'axios';
 
 interface Decision {
   objectName: string;
@@ -42,10 +42,8 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const surveyData = {
-      timestamp: new Date().toISOString(),
-      decisions,
       contactInfo,
       summary: {
         totalDecisions: decisions.length,
@@ -56,20 +54,19 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
       }
     };
 
-    // Convert to JSON and trigger download
-    const jsonString = JSON.stringify(surveyData, null, 2);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `buy-rent-survey-${Date.now()}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    setIsSubmitted(true);
-    console.log('Survey data saved:', surveyData);
+    try {
+      // Envia os dados para o servidor
+      await axios.post('http://localhost:8080/api/upload', surveyData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      setIsSubmitted(true);
+      console.log('Survey data saved:', surveyData);
+    } catch (error) {
+      console.error('Error saving survey data:', error);
+    }
   };
 
   return (
@@ -143,27 +140,55 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
           </div>
         </div>
 
-        {/* Insights */}
+        {/* Contact Form */}
         <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 mb-8">
-          <h3 className="text-xl font-bold text-white mb-4">💡 Your Shopping Style</h3>
-          {buyPercentage > 70 && (
-            <p className="text-white/90">
-              You're a <strong>Buyer</strong>! You prefer to own things and have them readily available. 
-              You value long-term ownership and convenience.
-            </p>
-          )}
-          {rentPercentage > 70 && (
-            <p className="text-white/90">
-              You're a <strong>Renter</strong>! You prefer flexibility and trying things before committing. 
-              You value experiences over ownership.
-            </p>
-          )}
-          {buyPercentage >= 30 && buyPercentage <= 70 && (
-            <p className="text-white/90">
-              You're <strong>Balanced</strong>! You carefully consider whether to buy or rent based on 
-              the specific item and your needs. Smart approach!
-            </p>
-          )}
+          <h3 className="text-xl font-bold text-white mb-4 flex items-center">
+            <User className="mr-2" size={20} />
+            Contact Information
+          </h3>
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="name" className="text-white/90">Name</Label>
+              <Input
+                id="name"
+                type="text"
+                value={contactInfo.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                placeholder="Your full name"
+              />
+            </div>
+            <div>
+              <Label htmlFor="email" className="text-white/90">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={contactInfo.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                placeholder="your.email@example.com"
+              />
+            </div>
+            <div>
+              <Label htmlFor="phone" className="text-white/90">Phone</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={contactInfo.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
+                placeholder="(+351) 912 345 678"
+              />
+            </div>
+            <button
+              onClick={handleSubmit}
+              disabled={!contactInfo.name || !contactInfo.email || isSubmitted}
+              className="w-full bg-white text-purple-600 px-6 py-3 rounded-xl font-bold
+                       hover:bg-white/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSubmitted ? 'Data Saved! ✓' : 'Thank You! We Hope To See You Again!'}
+            </button>
+          </div>
         </div>
 
         {/* Reset Button */}

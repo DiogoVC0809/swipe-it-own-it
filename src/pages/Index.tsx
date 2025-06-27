@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import SwipeCard from '../components/SwipeCard';
 import Summary from '../components/Summary';
@@ -11,14 +10,13 @@ interface Decision {
 }
 
 const objects = [
-  { id: 1, name: 'Camping Tent', emoji: '⛺', description: 'Perfect for outdoor adventures' },
-  { id: 2, name: 'GoPro Camera', emoji: '📹', description: 'Capture life in stunning detail' },
-  { id: 3, name: 'Projector', emoji: '📽️', description: 'Big screen entertainment anywhere' },
-  { id: 4, name: 'Electric Scooter', emoji: '🛴', description: 'Eco-friendly urban transport' },
-  { id: 5, name: 'Coffee Machine', emoji: '☕', description: 'Barista-quality coffee at home' },
-  { id: 6, name: 'Yoga Mat', emoji: '🧘‍♀️', description: 'Find your inner peace' },
-  { id: 7, name: 'Gaming Chair', emoji: '🎮', description: 'Ultimate comfort for long sessions' },
-  { id: 8, name: 'Bluetooth Speaker', emoji: '🔊', description: 'Premium sound on the go' }
+  { id: 1, name: 'Cement Mixer', emoji: '🔨', description: 'Essential for construction work' },
+  { id: 2, name: 'Scaffolding', emoji: '🏗️', description: 'For safe and sturdy construction work' },
+  { id: 3, name: 'Paddleboard', emoji: '🏄‍♀️', description: 'Perfect for water sports enthusiasts' },
+  { id: 4, name: 'Camper Van', emoji: '🚐', description: 'Travel in comfort on the road' },
+  { id: 5, name: 'Wet Vacuum Cleaner', emoji: '🧹', description: 'Efficient for cleaning wet messes' },
+  { id: 6, name: 'Kitchen Thermomix', emoji: '🍲', description: 'All-in-one kitchen appliance for cooking' },
+  { id: 7, name: 'Boat', emoji: '⛵', description: 'Ideal for fun and relaxation on water' }
 ];
 
 const Index = () => {
