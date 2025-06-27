@@ -9,7 +9,7 @@ const ThankYou = () => {
         <CardContent className="p-8">
           <div className="text-6xl mb-4">🎉</div>
           <h1 className="text-2xl font-bold text-green-700 mb-4">
-            Obrigado por te juntares à lista de espera!
+            Thank You for Joining Our Waiting List!
           </h1>
           <p className="text-gray-600 mb-6">
             We'll keep you updated on our rental app progress and let you know when we launch!

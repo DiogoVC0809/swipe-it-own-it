@@ -47,11 +47,11 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
       });
 
       console.log('Feedback submitted successfully');
-      alert('Obrigado por te juntares à lista de espera!');
+      alert('Thank you for your feedback!');
       onSubmit(feedback);
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      alert('Obrigado por te juntares à lista de espera!');
+      alert('Thank you for your feedback! We are currently experiencing issues with the submission. Please try again later.');
       onSubmit(feedback);
     }
   };
@@ -101,11 +101,11 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
               <h3 className="font-semibold text-purple-700">Join our waiting list!</h3>
               
               <div>
-                <Label htmlFor="name">O teu nome</Label>
+                <Label htmlFor="name">Your Name</Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="O teu nome"
+                  placeholder="Your Name"
                   value={feedback.name}
                   onChange={(e) => setFeedback(prev => ({ ...prev, name: e.target.value }))}
                   required
@@ -113,11 +113,11 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
               </div>
 
               <div>
-                <Label htmlFor="contact">Email ou Telemóvel</Label>
+                <Label htmlFor="contact">Email or Phone</Label>
                 <Input
                   id="contact"
                   type="text"
-                  placeholder="Email ou Telemóvel"
+                  placeholder="Email or Phone"
                   value={feedback.contact}
                   onChange={(e) => setFeedback(prev => ({ ...prev, contact: e.target.value }))}
                   required
@@ -129,7 +129,7 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
               type="submit"
               className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
             >
-              Submeter
+              Submit
             </Button>
           </form>
         </CardContent>
