@@ -133,14 +133,7 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
   return (
     
     <div className="inset-0 flex items-center justify-top-center">
-      {/* Logo */}
-      <div className="left-1/2 transform -translate-x-1/2">
-        <img
-          src="/images/logo.png"
-          alt="Logotipo"
-          className="w-48" // Ajuste a largura conforme necessário
-        />
-      </div>
+      
       <div
         ref={cardRef}
         className={`
