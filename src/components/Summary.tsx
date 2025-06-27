@@ -18,7 +18,7 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
 
   const buyDecisions = decisions.filter(d => d.choice === 'Buy');
   const rentDecisions = decisions.filter(d => d.choice === 'Rent');
-  
+
   const buyPercentage = Math.round((buyDecisions.length / decisions.length) * 100);
   const rentPercentage = Math.round((rentDecisions.length / decisions.length) * 100);
 
@@ -54,7 +54,7 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
             <p className="text-white/80">Items to Buy</p>
             <p className="text-white/60 text-sm">{buyPercentage}%</p>
           </div>
-          
+
           <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 text-center">
             <div className="flex items-center justify-center mb-4">
               <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
@@ -73,7 +73,7 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
             <TrendingUp className="mr-2" size={20} />
             Detailed Breakdown
           </h3>
-          
+
           <div className="space-y-3">
             {decisions.map((decision, index) => (
               <div key={index} className="flex items-center justify-between bg-white/10 rounded-lg p-3">
@@ -99,17 +99,6 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
             className="w-full bg-white text-purple-600 px-6 py-3 rounded-xl font-bold hover:bg-white/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitted ? 'Redirecting to Feedback...' : 'Proceed to Feedback'}
-          </button>
-        </div>
-
-        {/* Reset Button */}
-        <div className="text-center">
-          <button
-            onClick={onReset}
-            className="bg-white text-purple-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white/90 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-lg"
-          >
-            <RotateCcw size={20} />
-            <span>Try Again</span>
           </button>
         </div>
       </div>

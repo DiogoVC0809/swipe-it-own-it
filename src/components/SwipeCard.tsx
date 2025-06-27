@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingBag, Home } from 'lucide-react';
 
@@ -31,12 +30,12 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
 
   const handleMove = (clientX: number, clientY: number) => {
     if (!isDragging || index !== 0) return;
-    
+
     const deltaX = clientX - startPos.current.x;
     const deltaY = clientY - startPos.current.y;
-    
+
     setDragOffset({ x: deltaX, y: deltaY });
-    
+
     // Determine swipe direction
     if (Math.abs(deltaX) > 50) {
       setSwipeDirection(deltaX > 0 ? 'right' : 'left');
@@ -47,9 +46,9 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
 
   const handleEnd = () => {
     if (!isDragging || index !== 0 || !onSwipe) return;
-    
+
     setIsDragging(false);
-    
+
     const threshold = 120;
     if (Math.abs(dragOffset.x) > threshold) {
       const direction = dragOffset.x > 0 ? 'right' : 'left';
@@ -132,7 +131,16 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
   };
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center">
+    
+    <div className="inset-0 flex items-center justify-top-center">
+      {/* Logo */}
+      <div className="left-1/2 transform -translate-x-1/2">
+        <img
+          src="/images/logo.png"
+          alt="Logotipo"
+          className="w-48" // Ajuste a largura conforme necessário
+        />
+      </div>
       <div
         ref={cardRef}
         className={`
@@ -147,26 +155,16 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
+
+
         {/* Swipe Indicators */}
         {index === 0 && swipeDirection && (
           <>
-            <div className={`
-              absolute inset-0 rounded-2xl transition-opacity duration-200
-              ${swipeDirection === 'left' ? 'bg-red-500/20' : 'bg-green-500/20'}
-            `} />
-            <div className={`
-              absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-              w-20 h-20 rounded-full flex items-center justify-center
-              ${swipeDirection === 'left' ? 'bg-red-500' : 'bg-green-500'}
-              text-white text-2xl transition-all duration-200
-            `}>
+            <div className={`absolute inset-0 rounded-2xl transition-opacity duration-200 ${swipeDirection === 'left' ? 'bg-red-500/20' : 'bg-green-500/20'}`} />
+            <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex items-center justify-center ${swipeDirection === 'left' ? 'bg-red-500' : 'bg-green-500'} text-white text-2xl transition-all duration-200`}>
               {swipeDirection === 'left' ? <Home size={32} /> : <ShoppingBag size={32} />}
             </div>
-            <div className={`
-              absolute top-8 left-1/2 transform -translate-x-1/2
-              px-4 py-2 rounded-full text-white font-bold text-lg
-              ${swipeDirection === 'left' ? 'bg-red-500' : 'bg-green-500'}
-            `}>
+            <div className={`absolute top-8 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full text-white font-bold text-lg ${swipeDirection === 'left' ? 'bg-red-500' : 'bg-green-500'}`}>
               {swipeDirection === 'left' ? 'RENT' : 'BUY'}
             </div>
           </>

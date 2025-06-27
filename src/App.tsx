@@ -5,11 +5,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
-import Summary from "./components/Summary";  // Import the Summary component
-import FeedbackForm from "./components/FeedbackForm";  // Import the FeedbackForm component
-import { useState } from "react";  // Import useState if not already imported
+import Summary from "./components/Summary";
+import FeedbackForm from "./components/FeedbackForm";
+import ThankYou from "./components/ThankYou";
+import { useState } from "react";
 
-// Define the Decision type if not imported
 interface Decision {
   objectName: string;
   choice: 'Buy' | 'Rent';
@@ -19,10 +19,15 @@ interface Decision {
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [decisions, setDecisions] = useState<Decision[]>([]);  // Sample state for decisions
+  const [decisions, setDecisions] = useState<Decision[]>([]);
 
   const handleReset = () => {
-    setDecisions([]);  // Reset the decisions
+    setDecisions([]); // Resetar as decisões
+  };
+
+  const handleFeedbackSubmit = (feedback: any) => {
+    console.log('Feedback enviado:', feedback);
+    
   };
 
   return (
@@ -33,11 +38,9 @@ const App = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route
-              path="/summary"
-              element={<Summary decisions={decisions} onReset={handleReset} />}
-            />
-            <Route path="/feedback-form" element={<FeedbackForm onSubmit={() => {}} />} />
+            <Route path="/summary" element={<Summary decisions={decisions} onReset={handleReset} />} />
+            <Route path="/feedback-form" element={<FeedbackForm onSubmit={handleFeedbackSubmit} />} />
+            <Route path="/thank-you" element={<ThankYou onReset={handleReset} />} /> 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

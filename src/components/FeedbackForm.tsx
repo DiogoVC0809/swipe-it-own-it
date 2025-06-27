@@ -1,5 +1,5 @@
-
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // Importe o useNavigate
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
+// Definindo o tipo para o FeedbackData
 interface FeedbackData {
   mostWantedRental: string;
   appRating: string;
@@ -14,11 +15,12 @@ interface FeedbackData {
   contact: string;
 }
 
+// Definindo o tipo para as props do FeedbackForm
 interface FeedbackFormProps {
   onSubmit: (feedback: FeedbackData) => void;
 }
 
-const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
+const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
   const [feedback, setFeedback] = useState<FeedbackData>({
     mostWantedRental: '',
     appRating: '',
@@ -26,12 +28,14 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
     contact: ''
   });
 
+  const navigate = useNavigate();  // Usar o hook useNavigate
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Submit to Google Sheets using the new endpoint
+
+    // Enviar dados para o Google Sheets (já configurado)
     try {
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxYXs6tHWb3ve3Dpt3nYKuWEThcJRb4MnD065DgGvy6UgAoVFwXw1-za4OKXz6l1_tIIg/exec', {
+      const response = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -48,16 +52,20 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
 
       console.log('Feedback submitted successfully');
       alert('Thank you for your feedback!');
+
+      // Chama o onSubmit e passa o feedback
       onSubmit(feedback);
+
+      // Redireciona para a página de agradecimento
+      navigate('/thank-you');
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      alert('Thank you for your feedback! We are currently experiencing issues with the submission. Please try again later.');
-      onSubmit(feedback);
+      alert('Something went wrong. Please try again.');
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-purple-50 to-pink-50">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-green-50 to-blue-50">
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
@@ -99,13 +107,13 @@ const FeedbackForm = ({ onSubmit }: FeedbackFormProps) => {
 
             <div className="space-y-4 pt-4 border-t">
               <h3 className="font-semibold text-purple-700">Join our waiting list!</h3>
-              
+
               <div>
                 <Label htmlFor="name">Your Name</Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Your Name"
+                  placeholder="Your name"
                   value={feedback.name}
                   onChange={(e) => setFeedback(prev => ({ ...prev, name: e.target.value }))}
                   required
