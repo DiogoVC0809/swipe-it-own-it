@@ -13,6 +13,7 @@ interface FeedbackData {
   appRating: string;
   name: string;
   contact: string;
+  swipeChoice: 'Buy' | 'Rent';  // Adicionando o campo para o tipo de escolha do swipe
 }
 
 // Definindo o tipo para as props do FeedbackForm
@@ -25,7 +26,8 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
     mostWantedRental: '',
     appRating: '',
     name: '',
-    contact: ''
+    contact: '',
+    swipeChoice: 'Rent'  // Iniciando com um valor padrão (você pode ajustar conforme necessário)
   });
 
   const navigate = useNavigate();  // Usar o hook useNavigate
@@ -33,9 +35,11 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Enviar dados para o Google Sheets (já configurado)
+    // URL do seu Google Apps Script
+    const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbwUP1sA5pcPk9yDT3iShiPxGb0h86cDTMTGsn90RG2asZImxCGcwYzCMFY2dXZa4GXRiA/exec';  // Substitua pelo seu URL
+
     try {
-      const response = await fetch('YOUR_GOOGLE_APPS_SCRIPT_URL', {
+      const response = await fetch(googleAppsScriptUrl, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -46,12 +50,10 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           contact: feedback.contact,
           mostWantedRental: feedback.mostWantedRental,
           appRating: feedback.appRating,
+          swipeChoice: feedback.swipeChoice,  // Enviar a resposta do swipe (Buy/Rent)
           timestamp: new Date().toISOString()
         })
       });
-
-      console.log('Feedback submitted successfully');
-      alert('Thank you for your feedback!');
 
       // Chama o onSubmit e passa o feedback
       onSubmit(feedback);
