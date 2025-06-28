@@ -1,19 +1,18 @@
 import React from 'react';
 import { RotateCcw } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { useNavigate } from 'react-router-dom'; // Importando o useNavigate
+import { useNavigate } from 'react-router-dom'; // Importando useNavigate
 
 interface ThankYouProps {
-  onReset: () => void;  // Passar a função onReset (agora vamos redirecionar a navegação também)
+  onReset: () => void;  // Passar a função onReset
 }
 
 const ThankYou: React.FC<ThankYouProps> = ({ onReset }) => {
-  const navigate = useNavigate();  // Usar o hook useNavigate para navegação
+  const navigate = useNavigate();  // Usando o hook useNavigate
 
-  // Função para redirecionar para a página inicial
   const handleReset = () => {
-    onReset();  // Chama o reset que você já tem, se necessário
-    navigate('/');  // Redireciona para a página inicial
+    onReset();  // Chama o reset que você já tem (se necessário)
+    navigate('/');  // Navega de volta para a página de swipes
   };
 
   return (
