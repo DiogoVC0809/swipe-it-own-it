@@ -36,7 +36,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
     e.preventDefault();
 
     // URL do seu Google Apps Script
-    const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbwUP1sA5pcPk9yDT3iShiPxGb0h86cDTMTGsn90RG2asZImxCGcwYzCMFY2dXZa4GXRiA/exec';  // Substitua pelo seu URL
+    const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbznLvapvXbR5d9A65xq9yKmQPOhvmDXRlL7VwZgSk-pD0eBT-BLG1uInClB75J9kkUtdQ/exec';  // Substitua pelo seu URL
 
     try {
       const response = await fetch(googleAppsScriptUrl, {
