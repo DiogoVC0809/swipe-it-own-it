@@ -38,7 +38,7 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
     }, {} as Record<string, string>);
 
     try {
-      await fetch('https://script.google.com/macros/s/AKfycbxOmXyJrm4kiyl0HgV2nicnFvptFZWF_Defn10NTYEfsYiyAjM2z4ffJmHaqgRNTgboJA/exec', {
+      await fetch('https://script.google.com/macros/s/AKfycbyVxrWRTOn4zGUDBqNWELjz-KiMixDnD5PO4Y1ovGJfRkTYHa-t0esYKF2g0cRBbPLIOg/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
