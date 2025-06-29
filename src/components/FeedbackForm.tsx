@@ -42,7 +42,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, decisions }) => {
     try {
       await fetch('https://script.google.com/macros/s/AKfycbxOmXyJrm4kiyl0HgV2nicnFvptFZWF_Defn10NTYEfsYiyAjM2z4ffJmHaqgRNTgboJA/exec', {
         method: 'POST',
-        mode: 'no-cors',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json'
         },
