@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,12 +15,12 @@ interface FeedbackData {
   decisions: { objectName: string; choice: 'Buy' | 'Rent'; }[];
 }
 
-interface FeedbackFormProps {
-  onSubmit: (feedback: FeedbackData) => void;
-  decisions: { objectName: string; choice: 'Buy' | 'Rent'; timestamp: string; }[];
-}
+const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = ({ onSubmit }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, decisions }) => {
+  const decisions = location.state?.decisions ?? [];
+
   const [feedback, setFeedback] = useState<FeedbackData>({
     mostWantedRental: '',
     appRating: '',
@@ -28,8 +28,6 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, decisions }) => {
     contact: '',
     decisions: decisions.map(({ objectName, choice }) => ({ objectName, choice }))
   });
-
-  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +40,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, decisions }) => {
     try {
       await fetch('https://script.google.com/macros/s/AKfycbxOmXyJrm4kiyl0HgV2nicnFvptFZWF_Defn10NTYEfsYiyAjM2z4ffJmHaqgRNTgboJA/exec', {
         method: 'POST',
-        mode: 'cors',
+        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json'
         },

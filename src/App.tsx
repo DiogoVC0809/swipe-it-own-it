@@ -38,7 +38,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/summary" element={<Summary decisions={decisions} onReset={handleReset} />} />
-            <Route path="/feedback-form" element={<FeedbackForm onSubmit={handleFeedbackSubmit} decisions={decisions} />} />
+            <Route path="/feedback-form" element={<FeedbackForm onSubmit={handleFeedbackSubmit} />} />
             <Route path="/thank-you" element={<ThankYou onReset={handleReset} />} /> 
             <Route path="*" element={<NotFound />} />
           </Routes>

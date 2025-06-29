@@ -25,8 +25,7 @@ const Summary: React.FC<SummaryProps> = ({ decisions, onReset }) => {
   const navigate = useNavigate(); // useNavigate hook to navigate to FeedbackForm
 
   const handleSubmit = () => {
-    // Navigate to FeedbackForm page
-    navigate('/feedback-form');
+    navigate('/feedback-form', { state: { decisions } });
   };
 
   return (
