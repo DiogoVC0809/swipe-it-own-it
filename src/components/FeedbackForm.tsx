@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Importe o useNavigate
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,39 +7,40 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-// Definindo o tipo para o FeedbackData
 interface FeedbackData {
   mostWantedRental: string;
   appRating: string;
   name: string;
   contact: string;
-  swipeChoice: 'Buy' | 'Rent';  // Adicionando o campo para o tipo de escolha do swipe
+  decisions: { objectName: string; choice: 'Buy' | 'Rent'; }[];
 }
 
-// Definindo o tipo para as props do FeedbackForm
 interface FeedbackFormProps {
   onSubmit: (feedback: FeedbackData) => void;
+  decisions: { objectName: string; choice: 'Buy' | 'Rent'; timestamp: string; }[];
 }
 
-const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
+const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, decisions }) => {
   const [feedback, setFeedback] = useState<FeedbackData>({
     mostWantedRental: '',
     appRating: '',
     name: '',
     contact: '',
-    swipeChoice: 'Rent'  // Iniciando com um valor padrão (você pode ajustar conforme necessário)
+    decisions: decisions.map(({ objectName, choice }) => ({ objectName, choice }))
   });
 
-  const navigate = useNavigate();  // Usar o hook useNavigate
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // URL do seu Google Apps Script
-    const googleAppsScriptUrl = 'https://script.google.com/macros/s/AKfycbznLvapvXbR5d9A65xq9yKmQPOhvmDXRlL7VwZgSk-pD0eBT-BLG1uInClB75J9kkUtdQ/exec';  // Substitua pelo seu URL
+    const formattedSwipes = feedback.decisions.reduce((acc, decision, index) => {
+      acc[`swipeQ${index + 1}`] = `${decision.objectName}: ${decision.choice}`;
+      return acc;
+    }, {} as Record<string, string>);
 
     try {
-      const response = await fetch(googleAppsScriptUrl, {
+      await fetch('https://script.google.com/macros/s/AKfycbznLvapvXbR5d9A65xq9yKmQPOhvmDXRlL7VwZgSk-pD0eBT-BLG1uInClB75J9kkUtdQ/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -50,15 +51,12 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit }) => {
           contact: feedback.contact,
           mostWantedRental: feedback.mostWantedRental,
           appRating: feedback.appRating,
-          swipeChoice: feedback.swipeChoice,  // Enviar a resposta do swipe (Buy/Rent)
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          ...formattedSwipes
         })
       });
 
-      // Chama o onSubmit e passa o feedback
       onSubmit(feedback);
-
-      // Redireciona para a página de agradecimento
       navigate('/thank-you');
     } catch (error) {
       console.error('Error submitting feedback:', error);
