@@ -30,14 +30,14 @@ const ThankYou: React.FC<ThankYouProps> = ({ onReset }) => {
             Feel free to share this with friends who might be interested in renting instead of buying!
           </div>
 
-          {/* Botão "Try Again" */}
+          {/* Botão "Back" */}
           <div className="text-center mt-8">
             <button
               onClick={handleReset}  // Agora chama a função handleReset
               className="bg-blue-500 text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-blue-600 transition-all duration-200 transform hover:scale-105 flex items-center space-x-2 mx-auto shadow-lg"
             >
               <RotateCcw size={20} />
-              <span>Try Again</span>
+              <span>Back To Results</span>
             </button>
           </div>
         </CardContent>
