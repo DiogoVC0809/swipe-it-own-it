@@ -1,0 +1,21 @@
+.language-selection {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.flags {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 20px;
+}
+
+.flags img {
+  width: 100px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.flags img:hover {
+  transform: scale(1.1);
+}

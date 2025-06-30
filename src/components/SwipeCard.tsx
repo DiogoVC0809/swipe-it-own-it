@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ShoppingBag, Home } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; // <== IMPORTADO
 
 interface Object {
   id: number;
@@ -16,11 +17,38 @@ interface SwipeCardProps {
 }
 
 const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimating }) => {
+  const { t } = useTranslation(); // <== USADO
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [swipeDirection, setSwipeDirection] = useState<'left' | 'right' | null>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const startPos = useRef({ x: 0, y: 0 });
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    handleStart(e.clientX, e.clientY);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    handleMove(e.clientX, e.clientY);
+  };
+
+  const handleMouseUp = () => {
+    handleEnd();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    handleStart(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    const touch = e.touches[0];
+    handleMove(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchEnd = () => {
+    handleEnd();
+  };
 
   const handleStart = (clientX: number, clientY: number) => {
     if (index !== 0 || !onSwipe) return;
@@ -36,7 +64,6 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
 
     setDragOffset({ x: deltaX, y: deltaY });
 
-    // Determine swipe direction
     if (Math.abs(deltaX) > 50) {
       setSwipeDirection(deltaX > 0 ? 'right' : 'left');
     } else {
@@ -54,38 +81,9 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
       const direction = dragOffset.x > 0 ? 'right' : 'left';
       onSwipe(direction);
     } else {
-      // Snap back to center
       setDragOffset({ x: 0, y: 0 });
       setSwipeDirection(null);
     }
-  };
-
-  // Mouse events
-  const handleMouseDown = (e: React.MouseEvent) => {
-    handleStart(e.clientX, e.clientY);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    handleMove(e.clientX, e.clientY);
-  };
-
-  const handleMouseUp = () => {
-    handleEnd();
-  };
-
-  // Touch events
-  const handleTouchStart = (e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    handleStart(touch.clientX, touch.clientY);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    const touch = e.touches[0];
-    handleMove(touch.clientX, touch.clientY);
-  };
-
-  const handleTouchEnd = () => {
-    handleEnd();
   };
 
   useEffect(() => {
@@ -131,7 +129,6 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
   };
 
   return (
-    
     <div className="absolute inset-0 flex items-center justify-top-center">
       <div
         ref={cardRef}
@@ -147,22 +144,19 @@ const SwipeCard: React.FC<SwipeCardProps> = ({ object, index, onSwipe, isAnimati
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-
-
-        {/* Swipe Indicators */}
         {index === 0 && swipeDirection && (
           <>
-            <div className={`absolute inset-0 rounded-2xl transition-opacity duration-200 ${swipeDirection === 'left' ? 'bg-red-500/20' : 'bg-green-500/20'}`} />
-            <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex items-center justify-center ${swipeDirection === 'left' ? 'bg-red-500' : 'bg-green-500'} text-white text-2xl transition-all duration-200`}>
+            <div className={`absolute inset-0 rounded-2xl transition-opacity duration-200 ${swipeDirection === 'left' ? 'bg-green-500/20' : 'bg-red-500/20'}`} />
+            <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 rounded-full flex items-center justify-center ${swipeDirection === 'left' ? 'bg-green-500' : 'bg-red-500'} text-white text-2xl transition-all duration-200`}>
               {swipeDirection === 'left' ? <Home size={32} /> : <ShoppingBag size={32} />}
             </div>
-            <div className={`absolute top-8 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full text-white font-bold text-lg ${swipeDirection === 'left' ? 'bg-red-500' : 'bg-green-500'}`}>
-              {swipeDirection === 'left' ? 'RENT' : 'BUY'}
+            <div className={`absolute top-8 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full text-white font-bold text-lg ${swipeDirection === 'left' ? 'bg-green-500' : 'bg-red-500'}`}>
+              {swipeDirection === 'left' ? t('rent') : t('buy')}
             </div>
+
           </>
         )}
 
-        {/* Card Content */}
         <div className="p-8 h-full flex flex-col items-center justify-center text-center">
           <div className="text-8xl mb-6">{object.emoji}</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-4">{object.name}</h2>

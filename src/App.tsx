@@ -8,7 +8,10 @@ import NotFound from "./pages/NotFound";
 import Summary from "./components/Summary";
 import FeedbackForm from "./components/FeedbackForm";
 import ThankYou from "./components/ThankYou";
+import LanguageSelection from "./components/LanguageSelection"; // atualizado
 import { useState } from "react";
+
+import './i18n';
 
 interface Decision {
   objectName: string;
@@ -38,8 +41,9 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/summary" element={<Summary decisions={decisions} onReset={handleReset} />} />
-            <Route path="/feedback-form" element={<FeedbackForm onSubmit={handleFeedbackSubmit} />} />
-            <Route path="/thank-you" element={<ThankYou onReset={handleReset} />} /> 
+            <Route path="/feedback-form" element={<FeedbackForm onSubmit={handleFeedbackSubmit} decisions={decisions} />} />
+            <Route path="/thank-you" element={<ThankYou onReset={handleReset} />} />
+            <Route path="/select-language" element={<LanguageSelection />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

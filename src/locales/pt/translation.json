@@ -1,0 +1,65 @@
+{
+  "title": "Comprar ou Alugar?",
+  "instruction": "Desliza para a direita para comprar, para a esquerda para alugar",
+  "swipeLeft": "Desliza para a esquerda para alugar",
+  "swipeRight": "Desliza para a direita para comprar",
+  "of": "de",
+  "buy": "COMPRAR",
+  "rent": "ALUGAR",
+  "summaryTitle": "Os Teus Resultados!",
+  "summarySubtitle": "Estas foram as tuas decisões para {{count}} itens",
+  "itemsToBuy": "Itens para Comprar",
+  "itemsToRent": "Itens para Alugar",
+  "detailedBreakdown": "Resumo Detalhado",
+  "proceedToFeedback": "Avançar para o Feedback",
+  "redirectingFeedback": "A redirecionar para o Feedback...",
+  "thankTitle": "Obrigado por te juntares à nossa lista de espera!",
+  "thankBody": "Vamos manter-te informado sobre o progresso da nossa aplicação de aluguer e avisar-te quando for lançada!",
+  "thankExtra": "Partilha com amigos que também possam preferir alugar em vez de comprar!",
+  "backToResults": "Voltar aos Resultados",
+  "object": {
+    "cementMixer": {
+      "name": "Betoneira",
+      "description": "Essencial para obras de construção"
+    },
+    "scaffolding": {
+      "name": "Andaime",
+      "description": "Para uma construção segura e estável"
+    },
+    "paddleboard": {
+      "name": "Prancha de Paddle",
+      "description": "Ideal para entusiastas de desportos aquáticos"
+    },
+    "camperVan": {
+      "name": "Autocaravana",
+      "description": "Viaja com conforto pela estrada"
+    },
+    "vacuum": {
+      "name": "Aspirador de Líquidos",
+      "description": "Eficaz na limpeza de líquidos e sujidade"
+    },
+    "thermomix": {
+      "name": "Robot de Cozinha",
+      "description": "Aparelho tudo-em-um para cozinhar com facilidade"
+    },
+    "boat": {
+      "name": "Barco",
+      "description": "Perfeito para diversão e relaxamento na água"
+    }
+  },
+  "feedback": {
+    "title": "Feedback Rápido",
+    "rentalLabel": "O que gostarias mais de alugar?",
+    "rentalPlaceholder": "ex: GoPro para aventuras de fim de semana...",
+    "ratingLabel": "Usarias uma aplicação de aluguer como esta?",
+    "ratingMin": "Nem pensar",
+    "ratingMax": "Sem dúvida",
+    "joinTitle": "Junta-te à nossa lista de espera!",
+    "nameLabel": "O teu nome",
+    "namePlaceholder": "Escreve o teu nome",
+    "contactLabel": "Email ou Telemóvel",
+    "contactPlaceholder": "Email ou Telemóvel",
+    "submit": "Enviar",
+    "error": "Ocorreu um erro. Por favor, tenta novamente."
+  }
+}

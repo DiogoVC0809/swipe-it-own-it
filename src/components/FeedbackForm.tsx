@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { useTranslation } from 'react-i18next';
 
 interface FeedbackData {
   mostWantedRental: string;
@@ -15,11 +16,14 @@ interface FeedbackData {
   decisions: { objectName: string; choice: 'Buy' | 'Rent'; }[];
 }
 
-const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = ({ onSubmit }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+interface FeedbackFormProps {
+  onSubmit: (feedback: FeedbackData) => void;
+  decisions: { objectName: string; choice: 'Buy' | 'Rent'; timestamp: string }[];
+}
 
-  const decisions = location.state?.decisions ?? [];
+const FeedbackForm: React.FC<FeedbackFormProps> = ({ onSubmit, decisions }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [feedback, setFeedback] = useState<FeedbackData>({
     mostWantedRental: '',
@@ -58,7 +62,7 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
       navigate('/thank-you');
     } catch (error) {
       console.error('Error submitting feedback:', error);
-      alert('Something went wrong. Please try again.');
+      alert(t('feedback.error'));
     }
   };
 
@@ -67,16 +71,16 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle className="text-center text-2xl bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-            Quick Feedback
+            {t('feedback.title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="rental">What would you like to rent the most?</Label>
+              <Label htmlFor="rental">{t('feedback.rentalLabel')}</Label>
               <Textarea
                 id="rental"
-                placeholder="e.g., GoPro for weekend adventures..."
+                placeholder={t('feedback.rentalPlaceholder')}
                 value={feedback.mostWantedRental}
                 onChange={(e) => setFeedback(prev => ({ ...prev, mostWantedRental: e.target.value }))}
                 required
@@ -84,7 +88,7 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
             </div>
 
             <div>
-              <Label>Would you use a rental app like this?</Label>
+              <Label>{t('feedback.ratingLabel')}</Label>
               <RadioGroup
                 value={feedback.appRating}
                 onValueChange={(value) => setFeedback(prev => ({ ...prev, appRating: value }))}
@@ -98,20 +102,20 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
                 ))}
               </RadioGroup>
               <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Not at all</span>
-                <span>Definitely</span>
+                <span>{t('feedback.ratingMin')}</span>
+                <span>{t('feedback.ratingMax')}</span>
               </div>
             </div>
 
             <div className="space-y-4 pt-4 border-t">
-              <h3 className="font-semibold text-purple-700">Join our waiting list!</h3>
+              <h3 className="font-semibold text-purple-700">{t('feedback.joinTitle')}</h3>
 
               <div>
-                <Label htmlFor="name">Your Name</Label>
+                <Label htmlFor="name">{t('feedback.nameLabel')}</Label>
                 <Input
                   id="name"
                   type="text"
-                  placeholder="Your name"
+                  placeholder={t('feedback.namePlaceholder')}
                   value={feedback.name}
                   onChange={(e) => setFeedback(prev => ({ ...prev, name: e.target.value }))}
                   required
@@ -119,11 +123,11 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
               </div>
 
               <div>
-                <Label htmlFor="contact">Email or Phone</Label>
+                <Label htmlFor="contact">{t('feedback.contactLabel')}</Label>
                 <Input
                   id="contact"
                   type="text"
-                  placeholder="Email or Phone"
+                  placeholder={t('feedback.contactPlaceholder')}
                   value={feedback.contact}
                   onChange={(e) => setFeedback(prev => ({ ...prev, contact: e.target.value }))}
                   required
@@ -135,7 +139,7 @@ const FeedbackForm: React.FC<{ onSubmit: (feedback: FeedbackData) => void }> = (
               type="submit"
               className="w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
             >
-              Submit
+              {t('feedback.submit')}
             </Button>
           </form>
         </CardContent>

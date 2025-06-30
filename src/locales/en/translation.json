@@ -1,0 +1,65 @@
+{
+  "title": "Buy or Rent?",
+  "instruction": "Swipe right to buy, left to rent",
+  "swipeLeft": "Swipe left to rent",
+  "swipeRight": "Swipe right to buy",
+  "of": "of",
+  "buy": "BUY",
+  "rent": "RENT",
+  "summaryTitle": "Your Results!",
+  "summarySubtitle": "Here's how you decided on {{count}} items",
+  "itemsToBuy": "Items to Buy",
+  "itemsToRent": "Items to Rent",
+  "detailedBreakdown": "Detailed Breakdown",
+  "proceedToFeedback": "Proceed to Feedback",
+  "redirectingFeedback": "Redirecting to Feedback...",
+  "thankTitle": "Thank You for Joining Our Waiting List!",
+  "thankBody": "We'll keep you updated on our rental app progress and let you know when we launch!",
+  "thankExtra": "Feel free to share this with friends who might be interested in renting instead of buying!",
+  "backToResults": "Back To Results",
+  "object": {
+    "cementMixer": {
+      "name": "Cement Mixer",
+      "description": "Essential for construction work"
+    },
+    "scaffolding": {
+      "name": "Scaffolding",
+      "description": "For safe and sturdy construction work"
+    },
+    "paddleboard": {
+      "name": "Paddleboard",
+      "description": "Perfect for water sports enthusiasts"
+    },
+    "camperVan": {
+      "name": "Camper Van",
+      "description": "Travel in comfort on the road"
+    },
+    "vacuum": {
+      "name": "Wet Vacuum Cleaner",
+      "description": "Efficient for cleaning wet messes"
+    },
+    "thermomix": {
+      "name": "Kitchen Robot",
+      "description": "All-in-one kitchen appliance for cooking"
+    },
+    "boat": {
+      "name": "Boat",
+      "description": "Ideal for fun and relaxation on water"
+    }
+  },
+  "feedback": {
+    "title": "Quick Feedback",
+    "rentalLabel": "What would you like to rent the most?",
+    "rentalPlaceholder": "e.g., GoPro for weekend adventures...",
+    "ratingLabel": "Would you use a rental app like this?",
+    "ratingMin": "Not at all",
+    "ratingMax": "Definitely",
+    "joinTitle": "Join our waiting list!",
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Your name",
+    "contactLabel": "Email or Phone",
+    "contactPlaceholder": "Email or Phone",
+    "submit": "Submit",
+    "error": "Something went wrong. Please try again."
+  }
+}

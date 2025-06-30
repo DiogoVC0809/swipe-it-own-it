@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import SwipeCard from '../components/SwipeCard';
 import Summary from '../components/Summary';
 import { ShoppingBag, Home } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Decision {
   objectName: string;
@@ -9,17 +11,28 @@ interface Decision {
   timestamp: string;
 }
 
-const objects = [
-  { id: 1, name: 'Cement Mixer', emoji: '🔨', description: 'Essential for construction work' },
-  { id: 2, name: 'Scaffolding', emoji: '🏗️', description: 'For safe and sturdy construction work' },
-  { id: 3, name: 'Paddleboard', emoji: '🏄‍♀️', description: 'Perfect for water sports enthusiasts' },
-  { id: 4, name: 'Camper Van', emoji: '🚐', description: 'Travel in comfort on the road' },
-  { id: 5, name: 'Wet Vacuum Cleaner', emoji: '🧹', description: 'Efficient for cleaning wet messes' },
-  { id: 6, name: 'Kitchen Thermomix', emoji: '🍲', description: 'All-in-one kitchen appliance for cooking' },
-  { id: 7, name: 'Boat', emoji: '⛵', description: 'Ideal for fun and relaxation on water' }
-];
-
 const Index = () => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  // Verifica se há idioma selecionado
+  useEffect(() => {
+    const storedLang = localStorage.getItem('selectedLanguage');
+    if (!storedLang) {
+      navigate('/select-language');
+    }
+  }, [navigate]);
+
+  const objects = [
+    { id: 1, name: t('object.cementMixer.name'), emoji: '🔨', description: t('object.cementMixer.description') },
+    { id: 2, name: t('object.scaffolding.name'), emoji: '🏗️', description: t('object.scaffolding.description') },
+    { id: 3, name: t('object.paddleboard.name'), emoji: '🏄‍♀️', description: t('object.paddleboard.description') },
+    { id: 4, name: t('object.camperVan.name'), emoji: '🚐', description: t('object.camperVan.description') },
+    { id: 5, name: t('object.vacuum.name'), emoji: '🧹', description: t('object.vacuum.description') },
+    { id: 6, name: t('object.thermomix.name'), emoji: '🍲', description: t('object.thermomix.description') },
+    { id: 7, name: t('object.boat.name'), emoji: '⛵', description: t('object.boat.description') }
+  ];
+
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [decisions, setDecisions] = useState<Decision[]>([]);
   const [showSummary, setShowSummary] = useState(false);
@@ -27,7 +40,7 @@ const Index = () => {
 
   const handleSwipe = (direction: 'left' | 'right') => {
     if (animating) return;
-    
+
     setAnimating(true);
     const choice = direction === 'right' ? 'Buy' : 'Rent';
     const newDecision: Decision = {
@@ -38,8 +51,6 @@ const Index = () => {
 
     const updatedDecisions = [...decisions, newDecision];
     setDecisions(updatedDecisions);
-
-    // Store in localStorage
     localStorage.setItem('swipeDecisions', JSON.stringify(updatedDecisions));
 
     setTimeout(() => {
@@ -59,7 +70,6 @@ const Index = () => {
     localStorage.removeItem('swipeDecisions');
   };
 
-  // Load decisions from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem('swipeDecisions');
     if (saved) {
@@ -79,30 +89,27 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-orange-400 flex flex-col items-center justify-center p-4">
-      {/* Header */}
       <div className="text-center mb-8">
         <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
-          Buy or Rent? 🤔
+          {t('title')} 🤔
         </h1>
         <p className="text-white/80 text-lg">
-          Swipe right to buy, left to rent
+          {t('instruction')}
         </p>
       </div>
 
-      {/* Progress Bar */}
       <div className="w-full max-w-md mb-6">
         <div className="bg-white/20 rounded-full h-2 overflow-hidden">
-          <div 
+          <div
             className="bg-white h-full transition-all duration-300 ease-out"
             style={{ width: `${((currentCardIndex) / objects.length) * 100}%` }}
           />
         </div>
         <p className="text-white/80 text-sm mt-2 text-center">
-          {currentCardIndex + 1} of {objects.length}
+          {currentCardIndex + 1} {t('of')} {objects.length}
         </p>
       </div>
 
-      {/* Cards Stack */}
       <div className="relative w-full max-w-sm h-96 mb-8">
         {objects.slice(currentCardIndex, currentCardIndex + 3).map((object, index) => (
           <SwipeCard
@@ -115,19 +122,18 @@ const Index = () => {
         ))}
       </div>
 
-      {/* Instructions */}
       <div className="flex justify-center space-x-8 text-white/80">
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
             <Home size={16} />
           </div>
-          <span>Swipe left to rent</span>
+          <span>{t('swipeLeft')}</span>
         </div>
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+          <div className="w-8 h-8 bg-red-500 rounded-full flex items-center justify-center">
             <ShoppingBag size={16} />
           </div>
-          <span>Swipe right to buy</span>
+          <span>{t('swipeRight')}</span>
         </div>
       </div>
     </div>
