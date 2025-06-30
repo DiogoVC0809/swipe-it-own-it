@@ -16,7 +16,7 @@ const LanguageSelection = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-400 to-pink-400 text-white">
 
       <img
-        src="public/images/logo.png"
+        src="/images/logo.png"
         alt="Logo"
         className="w-64 h-auto mb-2"
       />
